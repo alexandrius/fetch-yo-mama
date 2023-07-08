@@ -1,10 +1,21 @@
 # fetch-yo-mama
 
+<p align="center" style="margin: 0px auto; margin-top: 15px; max-width: 600px">
+    <a href="https://npmjs.com/package/fetch-yo-mama"><img src="https://img.shields.io/npm/v/fetch-yo-mama"></a>
+    <a href="#"><img src="https://img.shields.io/npm/dt/fetch-yo-mama"/></a>
+</p>
+
 QoL fetch api hooks for React. The request will be automatically aborted if the component is unmounted
 
 ![logo](https://github.com/alexandrius/fetch-yo-mama/assets/5978212/feb261d6-d2fd-418f-9637-5923ca2ad97e)
 
+
+
 ## Usage
+
+### Step 0
+
+`yarn add fetch-yo-mama`
 
 ### Step 1
 
