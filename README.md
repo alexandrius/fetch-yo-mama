@@ -1,6 +1,6 @@
 # fetch-yo-mama
 
-useFetch hooks for React. The request will be automatically aborted if the component is unmounted
+QoL fetch api hooks for React. The request will be automatically aborted if the component is unmounted
 
 ![logo](https://github.com/alexandrius/fetch-yo-mama/assets/5978212/feb261d6-d2fd-418f-9637-5923ca2ad97e)
 
