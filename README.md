@@ -4,8 +4,6 @@ useFetch hook for React
 
 ![logo](https://github.com/alexandrius/use-fetch/assets/5978212/feb261d6-d2fd-418f-9637-5923ca2ad97e)
 
-
-
 ## Usage
 
 ### Step 1
@@ -70,7 +68,7 @@ const { error, response, request, loading } = useGet('/custom', {
 ### Other methods
 
 ```js
-import { usePost, useDelete, usePatch } from 'use-fetch';
+import { usePost, useDelete, usePatch, usePut } from 'use-fetch';
 
 export default function Component() {
    // fetch params

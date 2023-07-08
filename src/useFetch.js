@@ -63,6 +63,10 @@ export function usePut(endpoint, { fetchAlias, requestOnMount, ...requestOptions
    return useFetch({ endpoint, requestOptions, requestOnMount, fetchAlias, method: 'put' });
 }
 
+export function usePatch(endpoint, { fetchAlias, requestOnMount, ...requestOptions } = {}) {
+   return useFetch({ endpoint, requestOptions, requestOnMount, fetchAlias, method: 'patch' });
+}
+
 export function useDelete(endpoint, { fetchAlias, requestOnMount, ...requestOptions } = {}) {
    return useFetch({ endpoint, requestOptions, requestOnMount, fetchAlias, method: 'del' });
 }

@@ -47,6 +47,15 @@ function post({ url, params, body, ...options }) {
    return _fetch(getEndpointWithParams(url, params), requestOptions);
 }
 
+function patch({ url, params, body, ...options }) {
+   const requestOptions = {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+      ...options,
+   };
+   return _fetch(getEndpointWithParams(url, params), requestOptions);
+}
+
 function put({ url, params, body, ...options }) {
    const requestOptions = {
       method: 'PUT',
@@ -64,4 +73,4 @@ function del({ url, params, ...options }) {
    return _fetch(getEndpointWithParams(url, params), requestOptions);
 }
 
-export { get, post, put, del };
+export { get, post, put, patch, del };

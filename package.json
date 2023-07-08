@@ -1,5 +1,5 @@
 {
-    "name": "use-fetch",
+    "name": "usefetch",
     "version": "0.0.1",
     "description": "A library to easily fetch from api in React components.",
     "main": "index.js",
