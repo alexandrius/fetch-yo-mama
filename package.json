@@ -1,12 +1,12 @@
 {
-    "name": "react-use-fetch",
-    "version": "0.0.1",
+    "name": "fetch-yo-mama",
+    "version": "0.0.2",
     "description": "A library to easily fetch from api in React components.",
     "main": "index.js",
     "types": "index.d.ts",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/alexandrius/use-fetch.git"
+        "url": "git+https://github.com/alexandrius/fetch-yo-mama.git"
     },
     "keywords": [
         "fetch",
@@ -17,9 +17,9 @@
     "author": "Alexander Pataridze",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/alexandrius/use-fetch/issues"
+        "url": "https://github.com/alexandrius/fetch-yo-mama/issues"
     },
-    "homepage": "https://github.com/alexandrius/use-fetch#readme",
+    "homepage": "https://github.com/alexandrius/fetch-yo-mama#readme",
     "peerDependencies": {
         "react": ">=16.8"
     },

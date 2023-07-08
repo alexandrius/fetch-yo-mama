@@ -1,8 +1,8 @@
-# use-fetch
+# fetch-yo-mama
 
-useFetch hook for React
+useFetch hooks for React. The request will be automatically aborted if the component is unmounted
 
-![logo](https://github.com/alexandrius/use-fetch/assets/5978212/feb261d6-d2fd-418f-9637-5923ca2ad97e)
+![logo](https://github.com/alexandrius/fetch-yo-mama/assets/5978212/feb261d6-d2fd-418f-9637-5923ca2ad97e)
 
 ## Usage
 
@@ -11,7 +11,7 @@ useFetch hook for React
 Wrap the app with FetchProvider and pass `aliases`.
 
 ```jsx
-import { FetchProvider } from 'react-use-fetch';
+import { FetchProvider } from 'fetch-yo-mama';
 
 import Root from './src/root';
 
@@ -38,7 +38,7 @@ export default function App() {
 Use the hook:
 
 ```jsx
-import { useGet } from 'react-use-fetch';
+import { useGet } from 'fetch-yo-mama';
 
 export default function UserList() {
    const { error, response: users, request, loading } = useGet('/users');
@@ -68,7 +68,7 @@ const { error, response, request, loading } = useGet('/custom', {
 ### Other methods
 
 ```js
-import { usePost, useDelete, usePatch, usePut } from 'react-use-fetch';
+import { usePost, useDelete, usePatch, usePut } from 'fetch-yo-mama';
 
 export default function Component() {
    // fetch params
