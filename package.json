@@ -1,0 +1,31 @@
+{
+    "name": "use-fetch",
+    "version": "0.0.1",
+    "description": "A library to easily fetch from api in React components.",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/alexandrius/use-fetch.git"
+    },
+    "keywords": [
+        "fetch",
+        "useFetch",
+        "hook",
+        "react"
+    ],
+    "author": "Alexander Pataridze",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/alexandrius/use-fetch/issues"
+    },
+    "homepage": "https://github.com/alexandrius/use-fetch#readme",
+    "peerDependencies": {
+        "react": ">=16.8"
+    },
+    "devDependencies": {
+        "eslint": "^8.28.0",
+        "eslint-config-universe": "11.1.1",
+        "prettier": "^2.8.0"
+    }
+}
