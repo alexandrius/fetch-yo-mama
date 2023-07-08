@@ -2,8 +2,8 @@
 
 useFetch hook for React
 
+![logo](https://github.com/alexandrius/use-fetch/assets/5978212/feb261d6-d2fd-418f-9637-5923ca2ad97e)
 
-![use-fetch-logo](https://github.com/alexandrius/use-fetch/assets/5978212/6732d040-df2f-4d81-ad5a-8d28072fe575)
 
 
 ## Usage
