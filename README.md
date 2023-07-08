@@ -11,7 +11,7 @@ useFetch hook for React
 Wrap the app with FetchProvider and pass `aliases`.
 
 ```jsx
-import { FetchProvider } from 'use-fetch';
+import { FetchProvider } from 'react-use-fetch';
 
 import Root from './src/root';
 
@@ -38,7 +38,7 @@ export default function App() {
 Use the hook:
 
 ```jsx
-import { useGet } from 'use-fetch';
+import { useGet } from 'react-use-fetch';
 
 export default function UserList() {
    const { error, response: users, request, loading } = useGet('/users');
@@ -68,7 +68,7 @@ const { error, response, request, loading } = useGet('/custom', {
 ### Other methods
 
 ```js
-import { usePost, useDelete, usePatch, usePut } from 'use-fetch';
+import { usePost, useDelete, usePatch, usePut } from 'react-use-fetch';
 
 export default function Component() {
    // fetch params
