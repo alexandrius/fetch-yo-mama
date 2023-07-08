@@ -1,6 +1,6 @@
 {
     "name": "fetch-yo-mama",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A library to easily fetch from api in React components.",
     "main": "index.js",
     "types": "index.d.ts",
