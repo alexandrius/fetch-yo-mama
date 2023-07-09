@@ -5,21 +5,23 @@
     <a href="#"><img src="https://img.shields.io/npm/dt/fetch-yo-mama"/></a>
 </p>
 
-QoL fetch api hooks for React. The request will be automatically aborted if the component is unmounted
+Fetch API QoL hooks for React.
+
+> The request will be automatically aborted if the component is unmounted
 
 ![logo](https://github.com/alexandrius/fetch-yo-mama/assets/5978212/feb261d6-d2fd-418f-9637-5923ca2ad97e)
 
-
-
 ## Usage
 
-### Step 0
+### Step - 0
+
+> Install the library
 
 `yarn add fetch-yo-mama`
 
-### Step 1
+### Step - 1
 
-Wrap the app with FetchProvider and pass `aliases`.
+> Wrap the app with FetchProvider and pass `aliases`.
 
 ```jsx
 import { FetchProvider } from 'fetch-yo-mama';
@@ -44,9 +46,9 @@ export default function App() {
 }
 ```
 
-### Step 2
+### Step - 2
 
-Use the hook:
+> Use the hook:
 
 ```jsx
 import { useGet } from 'fetch-yo-mama';
@@ -73,6 +75,8 @@ const { error, response, request, loading } = useGet('/custom', {
    fetchAlias: 'custom',
    params: {},
    headers: {},
+   loadOnMount: false, // Don't fetch on mount
+   ...anyOtherFetchParam,
 });
 ```
 
@@ -87,8 +91,15 @@ export default function Component() {
       body: {},
       params: {},
       headers: {},
+      ..anyOtherFetchParam
    };
-   const { error, response, request, loading } = usePost('/user', {
+   const {
+      error,
+      response,
+      request,
+      loading,
+      abortControllerRef, // abortControllerRef.current.abort() to manually abort the request
+   } = usePost('/user', {
       ...fetchParams,
    });
 }

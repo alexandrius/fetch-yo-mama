@@ -30,47 +30,32 @@ function getEndpointWithParams(endpoint, params) {
    return endpointWithParams;
 }
 
-function get({ url, params, ...options }) {
+function any({ url, params, ...options }, method) {
    const requestOptions = {
-      method: 'GET',
+      method,
       ...options,
    };
    return _fetch(getEndpointWithParams(url, params), requestOptions);
 }
 
-function post({ url, params, body, ...options }) {
-   const requestOptions = {
-      method: 'POST',
-      body: JSON.stringify(body),
-      ...options,
-   };
-   return _fetch(getEndpointWithParams(url, params), requestOptions);
+function get(options) {
+   return any(options, 'GET');
 }
 
-function patch({ url, params, body, ...options }) {
-   const requestOptions = {
-      method: 'PATCH',
-      body: JSON.stringify(body),
-      ...options,
-   };
-   return _fetch(getEndpointWithParams(url, params), requestOptions);
+function post(options) {
+   return any(options, 'POST');
 }
 
-function put({ url, params, body, ...options }) {
-   const requestOptions = {
-      method: 'PUT',
-      body: JSON.stringify(body),
-      ...options,
-   };
-   return _fetch(getEndpointWithParams(url, params), requestOptions);
+function patch(options) {
+   return any(options, 'PATCH');
 }
 
-function del({ url, params, ...options }) {
-   const requestOptions = {
-      method: 'DELETE',
-      ...options,
-   };
-   return _fetch(getEndpointWithParams(url, params), requestOptions);
+function put(options) {
+   return any(options, 'PUT');
+}
+
+function del(options) {
+   return any(options, 'DELETE');
 }
 
 export { get, post, put, patch, del };

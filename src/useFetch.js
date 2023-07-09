@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useContext, useMemo, useRef } from 'react';
+import { useEffect, useState, useContext, useMemo, useRef } from 'react';
 
 import * as methods from './fetch';
 import FetchContext from './fetch-context';
@@ -7,23 +7,23 @@ export default function useFetch({
    endpoint,
    method,
    fetchAlias = 'default',
-   requestOnMount = true,
+   loadOnMount = true,
    requestOptions,
 }) {
    const aliases = useContext(FetchContext);
    const { baseUrl, headers } = useMemo(() => aliases[fetchAlias], []);
-   const abortController = useRef(null);
+   const abortControllerRef = useRef(null);
+
    const [requestState, setRequestState] = useState({
       error: null,
       response: null,
-      request,
-      loading: requestOnMount,
+      loading: loadOnMount,
    });
 
-   const request = useCallback(() => {
+   const request = () => {
       // eslint-disable-next-line no-undef
-      abortController.current = new AbortController();
-      const { signal } = abortController.current;
+      abortControllerRef.current = new AbortController();
+      const { signal } = abortControllerRef.current;
       methods[method]({
          url: `${baseUrl}${endpoint}`,
          signal,
@@ -31,42 +31,44 @@ export default function useFetch({
          headers: Object.assign({}, headers, requestOptions.headers),
       })
          .then((response) => {
-            setRequestState((requestState) => ({ ...requestState, loading: false, response }));
+            setRequestState({ response, loading: false, error: null });
          })
-         .catch((error) =>
-            setRequestState((requestState) => ({ ...requestState, loading: false, error }))
-         );
-   }, []);
+         .catch((error) => setRequestState({ response: null, loading: false, error }));
+   };
 
    useEffect(() => {
-      if (requestOnMount) {
+      if (loadOnMount) {
          request();
       }
 
       return () => {
-         abortController.current.abort();
+         abortControllerRef.current.abort();
       };
    }, []);
 
-   return requestState;
+   return { ...requestState, request, abortControllerRef };
 }
 
-export function useGet(endpoint, { fetchAlias, requestOnMount, ...requestOptions } = {}) {
-   return useFetch({ endpoint, requestOptions, requestOnMount, fetchAlias, method: 'get' });
+function useAny(endpoint, { fetchAlias, loadOnMount, ...requestOptions } = {}, method) {
+   return useFetch({ endpoint, fetchAlias, loadOnMount, requestOptions, method });
 }
 
-export function usePost(endpoint, { fetchAlias, requestOnMount, ...requestOptions } = {}) {
-   return useFetch({ endpoint, requestOptions, requestOnMount, fetchAlias, method: 'post' });
+export function useGet(endpoint, params) {
+   return useAny(endpoint, params, 'get');
 }
 
-export function usePut(endpoint, { fetchAlias, requestOnMount, ...requestOptions } = {}) {
-   return useFetch({ endpoint, requestOptions, requestOnMount, fetchAlias, method: 'put' });
+export function usePost(endpoint, params) {
+   return useAny(endpoint, params, 'post');
 }
 
-export function usePatch(endpoint, { fetchAlias, requestOnMount, ...requestOptions } = {}) {
-   return useFetch({ endpoint, requestOptions, requestOnMount, fetchAlias, method: 'patch' });
+export function usePut(endpoint, params) {
+   return useAny(endpoint, params, 'put');
 }
 
-export function useDelete(endpoint, { fetchAlias, requestOnMount, ...requestOptions } = {}) {
-   return useFetch({ endpoint, requestOptions, requestOnMount, fetchAlias, method: 'del' });
+export function usePatch(endpoint, params) {
+   return useAny(endpoint, params, 'patch');
+}
+
+export function useDelete(endpoint, params) {
+   return useAny(endpoint, params, 'del');
 }
