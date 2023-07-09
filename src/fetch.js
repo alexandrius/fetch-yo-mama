@@ -30,9 +30,18 @@ function getEndpointWithParams(endpoint, params) {
    return endpointWithParams;
 }
 
-function any({ url, params, ...options }, method) {
+function getFormData(body) {
+   const formData = new FormData();
+
+   for (const key in formData) {
+      formData.append(key, body[key]);
+   }
+}
+
+function any({ url, params, body, json = true, ...options }, method) {
    const requestOptions = {
       method,
+      body: json ? JSON.stringify(body) : getFormData(body),
       ...options,
    };
    return _fetch(getEndpointWithParams(url, params), requestOptions);
