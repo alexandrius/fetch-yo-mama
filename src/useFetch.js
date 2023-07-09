@@ -7,7 +7,7 @@ export default function useFetch({
    endpoint,
    method,
    fetchAlias = 'default',
-   loadOnMount = true,
+   loadOnMount,
    requestOptions,
 }) {
    const aliases = useContext(FetchContext);
@@ -54,7 +54,7 @@ function useAny(endpoint, { fetchAlias, loadOnMount, ...requestOptions } = {}, m
 }
 
 export function useGet(endpoint, params) {
-   return useAny(endpoint, params, 'get');
+   return useAny(endpoint, { ...params, loadOnMount: true }, 'get');
 }
 
 export function usePost(endpoint, params) {
