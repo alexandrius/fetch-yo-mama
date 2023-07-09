@@ -11,7 +11,7 @@ export default function useFetch({
    requestOptions,
 }) {
    const aliases = useContext(FetchContext);
-   const { baseUrl, headers } = useMemo(() => aliases[fetchAlias], []);
+   const { baseUrl, headers, bodyType = 'json' } = useMemo(() => aliases[fetchAlias], []);
    const abortControllerRef = useRef(null);
 
    const [requestState, setRequestState] = useState({
@@ -28,6 +28,7 @@ export default function useFetch({
          url: `${baseUrl}${endpoint}`,
          signal,
          ...requestOptions,
+         bodyType: requestOptions.bodyType || bodyType,
          headers: Object.assign({}, headers, requestOptions.headers),
       })
          .then((response) => {

@@ -38,6 +38,7 @@ export default function App() {
             },
             custom: {
                baseUrl: 'https://coolapi.com',
+               bodyType: 'formdata' // json|formdata|original. default: json
             },
          }}>
          <Root />
@@ -104,3 +105,7 @@ export default function Component() {
    });
 }
 ```
+
+
+## TODO:
+- [ ] Rewrite to TypeScript

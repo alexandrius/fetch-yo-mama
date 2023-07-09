@@ -30,7 +30,7 @@ function getEndpointWithParams(endpoint, params) {
    return endpointWithParams;
 }
 
-function getFormData(body) {
+function convertToFormData(body) {
    const formData = new FormData();
 
    for (const key in formData) {
@@ -38,10 +38,17 @@ function getFormData(body) {
    }
 }
 
-function any({ url, params, body, json = true, ...options }, method) {
+function any({ url, params, body: _body, bodyType, ...options }, method) {
+   let body = _body;
+   if (bodyType === 'json') {
+      body = JSON.stringify(body);
+   } else if (bodyType === 'formdata') {
+      body = convertToFormData(body);
+   }
+
    const requestOptions = {
       method,
-      body: json ? JSON.stringify(body) : getFormData(body),
+      body,
       ...options,
    };
    return _fetch(getEndpointWithParams(url, params), requestOptions);
