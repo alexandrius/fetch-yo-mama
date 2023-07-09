@@ -42,7 +42,7 @@ export default function useFetch({
       }
 
       return () => {
-         abortControllerRef.current.abort();
+         abortControllerRef.current?.abort();
       };
    }, []);
 
