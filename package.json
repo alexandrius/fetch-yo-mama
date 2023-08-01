@@ -1,6 +1,6 @@
 {
     "name": "fetch-yo-mama",
-    "version": "0.0.8",
+    "version": "0.1.0",
     "description": "Fetch API QoL hooks for React.",
     "main": "index.js",
     "types": "index.d.ts",
@@ -24,6 +24,7 @@
         "react": ">=16.8"
     },
     "devDependencies": {
+        "@types/react": "^18.2.18",
         "eslint": "^8.28.0",
         "eslint-config-universe": "11.1.1",
         "prettier": "^2.8.0"

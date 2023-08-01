@@ -108,4 +108,4 @@ export default function Component() {
 
 
 ## TODO:
-- [ ] Rewrite to TypeScript
+- [x] Rewrite to TypeScript

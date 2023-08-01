@@ -1,4 +1,13 @@
-function handleResponse(response) {
+interface FetchOptions extends RequestInit {
+   url: string;
+   params?: Record<string, string>;
+   body?: any;
+   bodyType?: string;
+}
+
+export type JsonResponse = string | number | boolean | null | Array<any> | { [key: string]: any };
+
+function handleResponse(response: Response) {
    return response.text().then((text) => {
       const data = text && JSON.parse(text);
 
@@ -11,18 +20,17 @@ function handleResponse(response) {
    });
 }
 
-function handleError(error) {
+function handleError(error: any) {
    return Promise.reject(error);
 }
 
-function _fetch(url, requestOptions) {
+function _fetch(url: string, requestOptions: RequestInit): Promise<JsonResponse> {
    return fetch(url, requestOptions).then(handleResponse).catch(handleError);
 }
 
-function getEndpointWithParams(endpoint, params) {
+function getEndpointWithParams(endpoint: string, params?: Record<string, string>) {
    let endpointWithParams = endpoint;
    if (params) {
-      // eslint-disable-next-line no-undef
       const urlSearchParams = new URLSearchParams(params);
       endpointWithParams += `?${urlSearchParams.toString()}`;
    }
@@ -30,15 +38,18 @@ function getEndpointWithParams(endpoint, params) {
    return endpointWithParams;
 }
 
-function convertToFormData(body) {
+function convertToFormData(body: any) {
    const formData = new FormData();
 
-   for (const key in formData) {
+   for (const key in body) {
       formData.append(key, body[key]);
    }
 }
 
-function any({ url, params, body: _body, bodyType, ...options }, method) {
+function any(
+   { url, params, body: _body, bodyType, ...options }: FetchOptions,
+   method: string
+): Promise<JsonResponse> {
    let body = _body;
    if (bodyType === 'json') {
       body = JSON.stringify(body);
@@ -54,24 +65,22 @@ function any({ url, params, body: _body, bodyType, ...options }, method) {
    return _fetch(getEndpointWithParams(url, params), requestOptions);
 }
 
-function get(options) {
+export function get(options: FetchOptions): Promise<JsonResponse> {
    return any(options, 'GET');
 }
 
-function post(options) {
+export function post(options: FetchOptions): Promise<JsonResponse> {
    return any(options, 'POST');
 }
 
-function patch(options) {
+export function patch(options: FetchOptions): Promise<JsonResponse> {
    return any(options, 'PATCH');
 }
 
-function put(options) {
+export function put(options: FetchOptions): Promise<JsonResponse> {
    return any(options, 'PUT');
 }
 
-function del(options) {
+export function del(options: FetchOptions): Promise<JsonResponse> {
    return any(options, 'DELETE');
 }
-
-export { get, post, put, patch, del };
