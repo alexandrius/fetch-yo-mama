@@ -1,19 +1,32 @@
 {
-   "compilerOptions": {
-      "target": "es5",
-      "lib": ["dom", "dom.iterable", "esnext"],
-      "allowJs": true,
-      "skipLibCheck": true,
-      "esModuleInterop": true,
+    "compilerOptions": {
+      "target": "ES2015",
+      "module": "es2015",
+      "outDir": "lib",
+      "rootDir": "src",
       "allowSyntheticDefaultImports": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "module": "esnext",
+      "jsx": "react-jsx",
       "moduleResolution": "node",
+      "skipLibCheck": true,
       "resolveJsonModule": true,
-      "isolatedModules": true,
-      "noEmit": true,
-      "jsx": "react-jsx"
-   },
-   "include": ["src"]
-}
+      "declaration": true,
+      "declarationMap": true,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+      "noUncheckedIndexedAccess": true,
+      "esModuleInterop": true,
+      "allowUnreachableCode": false,
+      "allowUnusedLabels": false,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "strictBindCallApply": true,
+      "strictPropertyInitialization": true,
+      "noImplicitThis": true,
+      "alwaysStrict": true
+    },
+    "include": ["src/index.ts"],
+    "exclude": [
+      "./node_modules"
+    ]
+  }

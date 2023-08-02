@@ -2,8 +2,12 @@
     "name": "fetch-yo-mama",
     "version": "0.1.0",
     "description": "Fetch API QoL hooks for React.",
-    "main": "index.js",
-    "types": "index.d.ts",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/alexandrius/fetch-yo-mama.git"
@@ -25,8 +29,9 @@
     },
     "devDependencies": {
         "@types/react": "^18.2.18",
-        "eslint": "^8.28.0",
-        "eslint-config-universe": "11.1.1",
+        "eslint": "^8.46.0",
+        "typescript": "^4.9.5",
+        "eslint-config-universe": "11.3.0",
         "prettier": "^2.8.0"
     }
 }
