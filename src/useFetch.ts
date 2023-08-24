@@ -84,22 +84,22 @@ function useAny(
    return useFetch({ endpoint, fetchAlias, loadOnMount, requestOptions, method });
 }
 
-export function useGet(endpoint: string, params: any) {
+export function useGet(endpoint: string, params: any | undefined) {
    return useAny(endpoint, { ...params, loadOnMount: true }, 'get');
 }
 
-export function usePost(endpoint: string, params: any) {
+export function usePost(endpoint: string, params: any | undefined) {
    return useAny(endpoint, params, 'post');
 }
 
-export function usePut(endpoint: string, params: any) {
+export function usePut(endpoint: string, params: any | undefined) {
    return useAny(endpoint, params, 'put');
 }
 
-export function usePatch(endpoint: string, params: any) {
+export function usePatch(endpoint: string, params: any | undefined) {
    return useAny(endpoint, params, 'patch');
 }
 
-export function useDelete(endpoint: string, params: any) {
+export function useDelete(endpoint: string, params: any | undefined) {
    return useAny(endpoint, params, 'del');
 }
