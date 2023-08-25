@@ -11,7 +11,7 @@ interface RequestOptions {
 }
 
 interface FetchOptions {
-   fetchAlias: string;
+   fetchAlias?: string;
    loadOnMount?: boolean;
    requestOptions?: RequestOptions;
 }
@@ -35,8 +35,8 @@ interface UseFetchReturn extends FetchState {
 export default function useFetch({
    endpoint,
    method,
-   fetchAlias,
-   loadOnMount,
+   fetchAlias = 'default',
+   loadOnMount = false,
    requestOptions = {},
 }: FetchParams): UseFetchReturn {
    const aliases = useContext(FetchContext);
@@ -46,7 +46,7 @@ export default function useFetch({
    const [requestState, setRequestState] = useState<FetchState>({
       error: null,
       response: null,
-      loading: loadOnMount!,
+      loading: loadOnMount,
    });
 
    const request = () => {
@@ -81,9 +81,7 @@ export default function useFetch({
 
 function useAny({
    endpoint,
-   params = {
-      fetchAlias: 'default',
-   },
+   params = {},
    method,
 }: {
    endpoint: string;
