@@ -5,7 +5,7 @@ interface FetchOptions extends RequestInit {
    bodyType?: string;
 }
 
-export type JsonResponse = string | number | boolean | null | Array<any> | { [key: string]: any };
+export type JsonResponse = string | number | boolean | null | any[] | { [key: string]: any };
 
 function handleResponse(response: Response) {
    return response.text().then((text) => {

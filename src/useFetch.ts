@@ -10,12 +10,15 @@ interface RequestOptions {
    headers?: any;
 }
 
-interface FetchParams {
+interface FetchOptions {
+   fetchAlias: string;
+   loadOnMount?: boolean;
+   requestOptions?: RequestOptions;
+}
+
+interface FetchParams extends FetchOptions {
    endpoint: string;
    method: string;
-   fetchAlias: string;
-   loadOnMount: boolean;
-   requestOptions: RequestOptions;
 }
 
 interface FetchState {
@@ -34,7 +37,7 @@ export default function useFetch({
    method,
    fetchAlias,
    loadOnMount,
-   requestOptions,
+   requestOptions = {},
 }: FetchParams): UseFetchReturn {
    const aliases = useContext(FetchContext);
    const { baseUrl, headers, bodyType = 'json' } = useMemo(() => aliases[fetchAlias], []);
@@ -43,7 +46,7 @@ export default function useFetch({
    const [requestState, setRequestState] = useState<FetchState>({
       error: null,
       response: null,
-      loading: loadOnMount,
+      loading: loadOnMount!,
    });
 
    const request = () => {
@@ -76,30 +79,40 @@ export default function useFetch({
    return { ...requestState, request, abortControllerRef };
 }
 
-function useAny(
-   endpoint: string,
-   { fetchAlias = 'default', loadOnMount = false, ...requestOptions } = {},
-   method: string
-) {
-   return useFetch({ endpoint, fetchAlias, loadOnMount, requestOptions, method });
+function useAny({
+   endpoint,
+   params = {
+      fetchAlias: 'default',
+   },
+   method,
+}: {
+   endpoint: string;
+   params?: FetchOptions;
+   method: string;
+}) {
+   if (params.loadOnMount === undefined) {
+      params.loadOnMount = method === 'get';
+   }
+
+   return useFetch({ endpoint, ...params, method });
 }
 
-export function useGet(endpoint: string, params: any | undefined) {
-   return useAny(endpoint, { ...params, loadOnMount: true }, 'get');
+export function useGet(endpoint: string, params?: FetchOptions) {
+   return useAny({ endpoint, params, method: 'get' });
 }
 
-export function usePost(endpoint: string, params: any | undefined) {
-   return useAny(endpoint, params, 'post');
+export function usePost(endpoint: string, params?: FetchOptions) {
+   return useAny({ endpoint, params, method: 'post' });
 }
 
-export function usePut(endpoint: string, params: any | undefined) {
-   return useAny(endpoint, params, 'put');
+export function usePut(endpoint: string, params?: FetchOptions) {
+   return useAny({ endpoint, params, method: 'put' });
 }
 
-export function usePatch(endpoint: string, params: any | undefined) {
-   return useAny(endpoint, params, 'patch');
+export function usePatch(endpoint: string, params?: FetchOptions) {
+   return useAny({ endpoint, params, method: 'patch' });
 }
 
-export function useDelete(endpoint: string, params: any | undefined) {
-   return useAny(endpoint, params, 'del');
+export function useDelete(endpoint: string, params?: FetchOptions) {
+   return useAny({ endpoint, params, method: 'del' });
 }
