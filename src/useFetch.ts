@@ -1,19 +1,17 @@
 import { useEffect, useState, useContext, useMemo, useRef } from 'react';
 
-import { get, post, put, patch, del, JsonResponse } from './fetch';
+import { get, post, put, patch, del } from './fetch';
 import FetchContext from './fetch-context';
 
 const methods = { get, post, put, patch, del };
 
-interface RequestOptions {
+interface FetchOptions {
+   alias?: string;
+   loadOnMount?: boolean;
    bodyType?: string;
    headers?: any;
-}
-
-interface FetchOptions {
-   fetchAlias?: string;
-   loadOnMount?: boolean;
-   requestOptions?: RequestOptions;
+   body?: any;
+   params?: any;
 }
 
 interface FetchParams extends FetchOptions {
@@ -27,21 +25,23 @@ interface FetchState {
    loading: boolean;
 }
 
-interface UseFetchReturn extends FetchState {
-   request: () => void;
-   abortControllerRef: React.MutableRefObject<AbortController | null>;
-}
-
-export default function useFetch({
+export default function useFetch<T>({
    endpoint,
    method,
-   fetchAlias = 'default',
+   alias = 'default',
    loadOnMount = false,
-   requestOptions = {},
-}: FetchParams): UseFetchReturn {
+   bodyType: bodyTypeParam,
+   headers: headersParam,
+   body,
+   params,
+}: FetchParams): [FetchState, () => void, React.MutableRefObject<AbortController | undefined>] {
    const aliases = useContext(FetchContext);
-   const { baseUrl, headers, bodyType = 'json' } = useMemo(() => aliases[fetchAlias], []);
-   const abortControllerRef = useRef<AbortController | null>(null);
+   const {
+      baseUrl,
+      headers,
+      bodyType = bodyTypeParam || 'json',
+   } = useMemo(() => aliases[alias], []);
+   const abortControllerRef = useRef<AbortController>();
 
    const [requestState, setRequestState] = useState<FetchState>({
       error: null,
@@ -56,11 +56,12 @@ export default function useFetch({
       methods[method]({
          url: `${baseUrl}${endpoint}`,
          signal,
-         ...requestOptions,
-         bodyType: requestOptions.bodyType || bodyType,
-         headers: Object.assign({}, headers, requestOptions.headers),
+         bodyType,
+         headers: Object.assign({}, headers, headersParam),
+         body,
+         params,
       })
-         .then((response: JsonResponse) => {
+         .then((response: T) => {
             setRequestState({ response, loading: false, error: null });
          })
          .catch((error: Error) => setRequestState({ response: null, loading: false, error }));
@@ -76,41 +77,41 @@ export default function useFetch({
       };
    }, []);
 
-   return { ...requestState, request, abortControllerRef };
+   return [requestState, request, abortControllerRef];
 }
 
 function useAny({
    endpoint,
-   params = {},
+   options = {},
    method,
 }: {
    endpoint: string;
-   params?: FetchOptions;
+   options?: FetchOptions;
    method: string;
 }) {
-   if (params.loadOnMount === undefined) {
-      params.loadOnMount = method === 'get';
+   if (options.loadOnMount === undefined) {
+      options.loadOnMount = method === 'get';
    }
 
-   return useFetch({ endpoint, ...params, method });
+   return useFetch({ endpoint, ...options, method });
 }
 
-export function useGet(endpoint: string, params?: FetchOptions) {
-   return useAny({ endpoint, params, method: 'get' });
+export function useGet(endpoint: string, options?: FetchOptions) {
+   return useAny({ endpoint, options, method: 'get' });
 }
 
-export function usePost(endpoint: string, params?: FetchOptions) {
-   return useAny({ endpoint, params, method: 'post' });
+export function usePost(endpoint: string, options?: FetchOptions) {
+   return useAny({ endpoint, options, method: 'post' });
 }
 
-export function usePut(endpoint: string, params?: FetchOptions) {
-   return useAny({ endpoint, params, method: 'put' });
+export function usePut(endpoint: string, options?: FetchOptions) {
+   return useAny({ endpoint, options, method: 'put' });
 }
 
-export function usePatch(endpoint: string, params?: FetchOptions) {
-   return useAny({ endpoint, params, method: 'patch' });
+export function usePatch(endpoint: string, options?: FetchOptions) {
+   return useAny({ endpoint, options, method: 'patch' });
 }
 
-export function useDelete(endpoint: string, params?: FetchOptions) {
-   return useAny({ endpoint, params, method: 'del' });
+export function useDelete(endpoint: string, options?: FetchOptions) {
+   return useAny({ endpoint, options, method: 'del' });
 }

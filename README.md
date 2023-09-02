@@ -38,7 +38,7 @@ export default function App() {
             },
             custom: {
                baseUrl: 'https://coolapi.com',
-               bodyType: 'formdata' // json|formdata|original. default: json
+               bodyType: 'formdata', // json|formdata|original. default: json
             },
          }}>
          <Root />
@@ -55,13 +55,13 @@ export default function App() {
 import { useGet } from 'fetch-yo-mama';
 
 export default function UserList() {
-   const { error, response: users, request, loading } = useGet('/users');
+   const [requestState, request, abortControllerRef] = useGet('/users');
 
-   if (loading) return <p>Loading...</p>;
-   if (error) return <p>Error Loading Data</p>;
+   if (requestState.loading) return <p>Loading...</p>;
+   if (requestState.error) return <p>Error Loading Data</p>;
    return (
       <>
-         {users.map((u) => (
+         {requestState.response.map((u) => (
             <p>{u.name}</p>
          ))}
       </>
@@ -72,8 +72,8 @@ export default function UserList() {
 ### Customize request
 
 ```js
-const { error, response, request, loading } = useGet('/custom', {
-   fetchAlias: 'custom',
+const [requestState, request, abortControllerRef] = useGet('/custom', {
+   alias: 'custom',
    params: {},
    headers: {},
    loadOnMount: false, // Don't fetch on mount
@@ -106,6 +106,6 @@ export default function Component() {
 }
 ```
 
-
 ## TODO:
-- [x] Rewrite to TypeScript
+
+-  [x] Rewrite to TypeScript

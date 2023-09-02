@@ -5,7 +5,7 @@ interface FetchOptions extends RequestInit {
    bodyType?: string;
 }
 
-export type JsonResponse = string | number | boolean | null | any[] | { [key: string]: any };
+export type Params = Record<string, any>;
 
 function handleResponse(response: Response) {
    return response.text().then((text) => {
@@ -24,7 +24,7 @@ function handleError(error: any) {
    return Promise.reject(error);
 }
 
-function _fetch(url: string, requestOptions: RequestInit): Promise<JsonResponse> {
+function _fetch(url: string, requestOptions: RequestInit): Promise<Params> {
    return fetch(url, requestOptions).then(handleResponse).catch(handleError);
 }
 
@@ -49,7 +49,7 @@ function convertToFormData(body: any) {
 function any(
    { url, params, body: _body, bodyType, ...options }: FetchOptions,
    method: string
-): Promise<JsonResponse> {
+): Promise<any> {
    let body = _body;
    if (bodyType === 'json') {
       body = JSON.stringify(body);
@@ -65,22 +65,22 @@ function any(
    return _fetch(getEndpointWithParams(url, params), requestOptions);
 }
 
-export function get(options: FetchOptions): Promise<JsonResponse> {
+export function get(options: FetchOptions): Promise<any> {
    return any(options, 'GET');
 }
 
-export function post(options: FetchOptions): Promise<JsonResponse> {
+export function post(options: FetchOptions): Promise<any> {
    return any(options, 'POST');
 }
 
-export function patch(options: FetchOptions): Promise<JsonResponse> {
+export function patch(options: FetchOptions): Promise<any> {
    return any(options, 'PATCH');
 }
 
-export function put(options: FetchOptions): Promise<JsonResponse> {
+export function put(options: FetchOptions): Promise<any> {
    return any(options, 'PUT');
 }
 
-export function del(options: FetchOptions): Promise<JsonResponse> {
+export function del(options: FetchOptions): Promise<any> {
    return any(options, 'DELETE');
 }
