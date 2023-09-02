@@ -55,13 +55,13 @@ export default function App() {
 import { useGet } from 'fetch-yo-mama';
 
 export default function UserList() {
-   const [requestState, request, abortControllerRef] = useGet('/users');
+   const [usersRequest, request, abortControllerRef] = useGet('/users');
 
-   if (requestState.loading) return <p>Loading...</p>;
-   if (requestState.error) return <p>Error Loading Data</p>;
+   if (usersRequest.loading) return <p>Loading...</p>;
+   if (usersRequest.error) return <p>Error Loading Data</p>;
    return (
       <>
-         {requestState.response.map((u) => (
+         {usersRequest.response.map((u) => (
             <p>{u.name}</p>
          ))}
       </>
