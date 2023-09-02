@@ -109,3 +109,4 @@ export default function Component() {
 ## TODO:
 
 -  [x] Rewrite to TypeScript
+-  [ ] Logger

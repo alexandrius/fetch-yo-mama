@@ -19,9 +19,9 @@ interface FetchParams extends FetchOptions {
    method: string;
 }
 
-interface FetchState {
+interface FetchState<T> {
    error: any;
-   response: any;
+   response: T | null;
    loading: boolean;
 }
 
@@ -34,7 +34,7 @@ export default function useFetch<T>({
    headers: headersParam,
    body,
    params,
-}: FetchParams): [FetchState, () => void, React.MutableRefObject<AbortController | undefined>] {
+}: FetchParams): [FetchState<T>, () => void, React.MutableRefObject<AbortController | undefined>] {
    const aliases = useContext(FetchContext);
    const {
       baseUrl,
@@ -43,7 +43,7 @@ export default function useFetch<T>({
    } = useMemo(() => aliases[alias], []);
    const abortControllerRef = useRef<AbortController>();
 
-   const [requestState, setRequestState] = useState<FetchState>({
+   const [requestState, setRequestState] = useState<FetchState<T>>({
       error: null,
       response: null,
       loading: loadOnMount,
@@ -80,7 +80,7 @@ export default function useFetch<T>({
    return [requestState, request, abortControllerRef];
 }
 
-function useAny({
+function useAny<T>({
    endpoint,
    options = {},
    method,
@@ -93,25 +93,25 @@ function useAny({
       options.loadOnMount = method === 'get';
    }
 
-   return useFetch({ endpoint, ...options, method });
+   return useFetch<T>({ endpoint, ...options, method });
 }
 
-export function useGet(endpoint: string, options?: FetchOptions) {
-   return useAny({ endpoint, options, method: 'get' });
+export function useGet<T>(endpoint: string, options?: FetchOptions) {
+   return useAny<T>({ endpoint, options, method: 'get' });
 }
 
-export function usePost(endpoint: string, options?: FetchOptions) {
-   return useAny({ endpoint, options, method: 'post' });
+export function usePost<T>(endpoint: string, options?: FetchOptions) {
+   return useAny<T>({ endpoint, options, method: 'post' });
 }
 
-export function usePut(endpoint: string, options?: FetchOptions) {
-   return useAny({ endpoint, options, method: 'put' });
+export function usePut<T>(endpoint: string, options?: FetchOptions) {
+   return useAny<T>({ endpoint, options, method: 'put' });
 }
 
-export function usePatch(endpoint: string, options?: FetchOptions) {
-   return useAny({ endpoint, options, method: 'patch' });
+export function usePatch<T>(endpoint: string, options?: FetchOptions) {
+   return useAny<T>({ endpoint, options, method: 'patch' });
 }
 
-export function useDelete(endpoint: string, options?: FetchOptions) {
-   return useAny({ endpoint, options, method: 'del' });
+export function useDelete<T>(endpoint: string, options?: FetchOptions) {
+   return useAny<T>({ endpoint, options, method: 'del' });
 }
