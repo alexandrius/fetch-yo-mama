@@ -1,6 +1,6 @@
 {
     "name": "fetch-yo-mama",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "description": "Fetch API QoL hooks for React.",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",

@@ -21,7 +21,7 @@ interface FetchParams extends FetchOptions {
 
 interface FetchState<T> {
    error: any;
-   response: T | null;
+   response?: T;
    loading: boolean;
 }
 
@@ -45,7 +45,7 @@ export default function useFetch<T>({
 
    const [requestState, setRequestState] = useState<FetchState<T>>({
       error: null,
-      response: null,
+      response: undefined,
       loading: loadOnMount,
    });
 
@@ -64,7 +64,7 @@ export default function useFetch<T>({
          .then((response: T) => {
             setRequestState({ response, loading: false, error: null });
          })
-         .catch((error: Error) => setRequestState({ response: null, loading: false, error }));
+         .catch((error: Error) => setRequestState({ response: undefined, loading: false, error }));
    };
 
    useEffect(() => {
