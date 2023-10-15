@@ -4,7 +4,6 @@ import FetchContext from './fetch-context';
 
 interface Alias extends RequestInit {
    baseUrl: string;
-   headers?: Record<string, string>;
    bodyType?: 'json' | 'formdata' | 'original';
 }
 
