@@ -52,6 +52,7 @@ export default function useFetch<T>({
    const request = () => {
       abortControllerRef.current = new AbortController();
       const { signal } = abortControllerRef.current;
+      setRequestState({ ...requestState, loading: true });
       // @ts-ignore
       methods[method]({
          url: `${baseUrl}${endpoint}`,
