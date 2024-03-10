@@ -7,21 +7,21 @@ interface FetchOptions extends RequestInit {
 
 export type Params = Record<string, any>;
 
-function handleResponse(response: Response) {
-   return response.text().then((text) => {
-      const data = text && JSON.parse(text);
-
-      if (!response.ok) {
-         const error = data || response.statusText;
-         return Promise.reject(error);
-      }
-
-      return data;
-   });
+async function handleResponse(response: Response) {
+   const text = await response.text();
+   if (response.ok) {
+      return JSON.parse(text);
+   }
+   throw new Error(text || response.statusText);
 }
 
-function handleError(error: any) {
-   return Promise.reject(error);
+function handleError(error: Error) {
+   let jsonError;
+   try {
+      jsonError = JSON.parse(error.message);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   } catch (e) {}
+   return Promise.reject(jsonError || error.message);
 }
 
 function _fetch(url: string, requestOptions: RequestInit): Promise<Params> {
