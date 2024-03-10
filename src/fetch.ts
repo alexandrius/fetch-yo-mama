@@ -24,7 +24,7 @@ function handleError(error: Error) {
    return Promise.reject(jsonError || error.message);
 }
 
-function _fetch(url: string, requestOptions: RequestInit): Promise<Params> {
+function _fetch<T>(url: string, requestOptions: RequestInit): Promise<T> {
    return fetch(url, requestOptions).then(handleResponse).catch(handleError);
 }
 
@@ -46,7 +46,7 @@ function convertToFormData(body: any) {
    }
 }
 
-function any(
+function any<T>(
    { url, params, body: _body, bodyType, ...options }: FetchOptions,
    method: string
 ): Promise<any> {
@@ -62,25 +62,35 @@ function any(
       body,
       ...options,
    };
-   return _fetch(getEndpointWithParams(url, params), requestOptions);
+   return _fetch<T>(getEndpointWithParams(url, params), requestOptions);
 }
 
-export function get(options: FetchOptions): Promise<any> {
+function get<T>(options: FetchOptions): Promise<T> {
    return any(options, 'GET');
 }
 
-export function post(options: FetchOptions): Promise<any> {
+function post<T>(options: FetchOptions): Promise<T> {
    return any(options, 'POST');
 }
 
-export function patch(options: FetchOptions): Promise<any> {
+function patch<T>(options: FetchOptions): Promise<T> {
    return any(options, 'PATCH');
 }
 
-export function put(options: FetchOptions): Promise<any> {
+function put<T>(options: FetchOptions): Promise<T> {
    return any(options, 'PUT');
 }
 
-export function del(options: FetchOptions): Promise<any> {
+function del<T>(options: FetchOptions): Promise<T> {
    return any(options, 'DELETE');
 }
+
+const methods: Record<string, <T>(options: FetchOptions) => Promise<T>> = {
+   get,
+   post,
+   put,
+   patch,
+   del,
+};
+
+export default methods;

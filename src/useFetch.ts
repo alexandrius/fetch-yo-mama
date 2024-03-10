@@ -1,11 +1,9 @@
 import { useEffect, useState, useContext, useMemo, useRef } from 'react';
 
-import { get, post, put, patch, del } from './fetch';
+import methods from './fetch';
 import FetchContext from './fetch-context';
 
-const methods = { get, post, put, patch, del };
-
-interface FetchOptions {
+interface UseFetchOptions {
    alias?: string;
    loadOnMount?: boolean;
    bodyType?: string;
@@ -14,7 +12,7 @@ interface FetchOptions {
    params?: any;
 }
 
-interface FetchParams extends FetchOptions {
+interface FetchParams extends UseFetchOptions {
    endpoint: string;
    method: string;
 }
@@ -53,8 +51,8 @@ export default function useFetch<T>({
       abortControllerRef.current = new AbortController();
       const { signal } = abortControllerRef.current;
       setRequestState({ ...requestState, loading: true });
-      // @ts-ignore
-      methods[method]({
+
+      methods[method]!<T>({
          url: `${baseUrl}${endpoint}`,
          signal,
          bodyType,
@@ -87,7 +85,7 @@ function useAny<T>({
    method,
 }: {
    endpoint: string;
-   options?: FetchOptions;
+   options?: UseFetchOptions;
    method: string;
 }) {
    if (options.loadOnMount === undefined) {
@@ -97,22 +95,22 @@ function useAny<T>({
    return useFetch<T>({ endpoint, ...options, method });
 }
 
-export function useGet<T>(endpoint: string, options?: FetchOptions) {
+export function useGet<T>(endpoint: string, options?: UseFetchOptions) {
    return useAny<T>({ endpoint, options, method: 'get' });
 }
 
-export function usePost<T>(endpoint: string, options?: FetchOptions) {
+export function usePost<T>(endpoint: string, options?: UseFetchOptions) {
    return useAny<T>({ endpoint, options, method: 'post' });
 }
 
-export function usePut<T>(endpoint: string, options?: FetchOptions) {
+export function usePut<T>(endpoint: string, options?: UseFetchOptions) {
    return useAny<T>({ endpoint, options, method: 'put' });
 }
 
-export function usePatch<T>(endpoint: string, options?: FetchOptions) {
+export function usePatch<T>(endpoint: string, options?: UseFetchOptions) {
    return useAny<T>({ endpoint, options, method: 'patch' });
 }
 
-export function useDelete<T>(endpoint: string, options?: FetchOptions) {
+export function useDelete<T>(endpoint: string, options?: UseFetchOptions) {
    return useAny<T>({ endpoint, options, method: 'del' });
 }
