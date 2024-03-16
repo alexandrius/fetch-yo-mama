@@ -19,8 +19,7 @@ function handleError(error: Error) {
    let jsonError;
    try {
       jsonError = JSON.parse(error.message);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-   } catch (e) {}
+   } catch (_) {}
    return Promise.reject(jsonError || error.message);
 }
 

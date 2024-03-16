@@ -5,5 +5,6 @@ module.exports = {
       'react/self-closing-comp': [0],
       'no-unused-expressions': 0,
       'no-throw-literal': 0,
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
    },
 };
