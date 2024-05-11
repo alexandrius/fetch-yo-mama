@@ -17,7 +17,7 @@ interface FetchParams extends UseFetchOptions {
    method: string;
 }
 
-interface FetchState<T> {
+export interface FetchState<T> {
    error: any;
    response?: T;
    loading: boolean;
