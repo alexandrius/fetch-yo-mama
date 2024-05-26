@@ -38,7 +38,7 @@ export default function useFetch<T>({
       baseUrl,
       headers,
       bodyType = bodyTypeParam || 'json',
-   } = useMemo(() => aliases[alias], []);
+   } = useMemo(() => aliases[alias], [aliases[alias]]);
    const abortControllerRef = useRef<AbortController>();
 
    const [requestState, setRequestState] = useState<FetchState<T>>({
