@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useMemo, useRef } from 'react';
 
-import methods from './fetch';
+import methods, { type FetchResponse } from './fetch';
 import FetchContext from './fetch-context';
 
 interface UseFetchOptions {
@@ -20,6 +20,7 @@ interface FetchParams extends UseFetchOptions {
 export interface FetchState<T> {
    error: any;
    response?: T;
+   rawResponse?: Response;
    loading: boolean;
 }
 
@@ -43,7 +44,6 @@ export default function useFetch<T>({
 
    const [requestState, setRequestState] = useState<FetchState<T>>({
       error: null,
-      response: undefined,
       loading: loadOnMount,
    });
 
@@ -60,8 +60,13 @@ export default function useFetch<T>({
          body,
          params,
       })
-         .then((response: T) => {
-            setRequestState({ response, loading: false, error: null });
+         .then((response: FetchResponse<T>) => {
+            setRequestState({
+               response: response.data,
+               rawResponse: response.rawResponse,
+               loading: false,
+               error: null,
+            });
          })
          .catch((error: Error) => setRequestState({ response: undefined, loading: false, error }));
    };

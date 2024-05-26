@@ -7,10 +7,15 @@ interface FetchOptions extends RequestInit {
 
 export type Params = Record<string, any>;
 
+export type FetchResponse<T> = {
+   data: T;
+   rawResponse: Response;
+};
+
 async function handleResponse(response: Response) {
    const text = await response.text();
    if (response.ok) {
-      return JSON.parse(text);
+      return { data: JSON.parse(text), rawResponse: { ...response } };
    }
    throw new Error(text || response.statusText);
 }
@@ -23,7 +28,7 @@ function handleError(error: Error) {
    return Promise.reject(jsonError || error.message);
 }
 
-function _fetch<T>(url: string, requestOptions: RequestInit): Promise<T> {
+function _fetch<T>(url: string, requestOptions: RequestInit): Promise<FetchResponse<T>> {
    return fetch(url, requestOptions).then(handleResponse).catch(handleError);
 }
 
@@ -48,7 +53,7 @@ function convertToFormData(body: any) {
 function any<T>(
    { url, params, body: _body, bodyType, ...options }: FetchOptions,
    method: string
-): Promise<any> {
+): Promise<FetchResponse<T>> {
    let body = _body;
    if (bodyType === 'json') {
       body = JSON.stringify(body);
@@ -64,27 +69,27 @@ function any<T>(
    return _fetch<T>(getEndpointWithParams(url, params), requestOptions);
 }
 
-function get<T>(options: FetchOptions): Promise<T> {
+function get<T>(options: FetchOptions): Promise<FetchResponse<T>> {
    return any(options, 'GET');
 }
 
-function post<T>(options: FetchOptions): Promise<T> {
+function post<T>(options: FetchOptions): Promise<FetchResponse<T>> {
    return any(options, 'POST');
 }
 
-function patch<T>(options: FetchOptions): Promise<T> {
+function patch<T>(options: FetchOptions): Promise<FetchResponse<T>> {
    return any(options, 'PATCH');
 }
 
-function put<T>(options: FetchOptions): Promise<T> {
+function put<T>(options: FetchOptions): Promise<FetchResponse<T>> {
    return any(options, 'PUT');
 }
 
-function del<T>(options: FetchOptions): Promise<T> {
+function del<T>(options: FetchOptions): Promise<FetchResponse<T>> {
    return any(options, 'DELETE');
 }
 
-const methods: Record<string, <T>(options: FetchOptions) => Promise<T>> = {
+const methods: Record<string, <T>(options: FetchOptions) => Promise<FetchResponse<T>>> = {
    get,
    post,
    put,

@@ -109,5 +109,6 @@ export default function Component() {
 ## TODO:
 
 -  [x] Rewrite to TypeScript
--  [ ] Logger
--  [ ] Callback methods
+-  [ ] Image upload progress
+-  [ ] Change name
+-  [ ] Docs
