@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useMemo, useRef } from 'react';
+import { useEffect, useState, useContext, useMemo, useRef, useCallback } from 'react';
 
 import methods, { type FetchResponse } from './fetch';
 import FetchContext from './fetch-context';
@@ -33,7 +33,12 @@ export default function useFetch<T>({
    headers: headersParam,
    body,
    params,
-}: FetchParams): [FetchState<T>, () => void, React.MutableRefObject<AbortController | undefined>] {
+}: FetchParams): [
+   FetchState<T>,
+   () => void,
+   React.MutableRefObject<AbortController | undefined>,
+   () => void
+] {
    const aliases = useContext(FetchContext);
    const {
       baseUrl,
@@ -81,7 +86,16 @@ export default function useFetch<T>({
       };
    }, []);
 
-   return [requestState, request, abortControllerRef];
+   const clearState = useCallback(() => {
+      setRequestState({
+         error: null,
+         loading: false,
+         response: undefined,
+         rawResponse: undefined,
+      });
+   }, []);
+
+   return [requestState, request, abortControllerRef, clearState];
 }
 
 function useAny<T>({
